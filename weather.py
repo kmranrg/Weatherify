@@ -1,0 +1,35 @@
+import requests
+
+def get_weather_details(location):
+    # weatherapi.com api key
+    api_key = open('key.txt').read()
+
+    # setting the base URL for the weatherapi.com API
+    base_url = f'http://api.weatherapi.com/v1/'
+
+    # specifying the endpoint you want to use (e.g., 'current.json' for current weather)
+    endpoint = 'current.json'
+
+    # building the complete API URL
+    url = f'{base_url}{endpoint}?key={api_key}&q={location}'
+
+    # sending a GET request to the API
+    response = requests.get(url)
+
+    weather_dictionary = {}
+
+    # checking if the request was successful (HTTP status code 200)
+    if response.status_code == 200:
+        # parsing the JSON response data
+        weather_data = response.json()
+
+        weather_dictionary['Location'] = f'{weather_data["location"]["name"]}, {weather_data["location"]["country"]}'
+        weather_dictionary['Temperature (°C)'] = f'{weather_data["current"]["temp_c"]}'
+        weather_dictionary['Condition'] = f'{weather_data["current"]["condition"]["text"]}'
+        weather_dictionary['Humidity'] = f'{weather_data["current"]["humidity"]}%'
+
+        return weather_dictionary
+
+    else:
+        # returning an error message if the request was not successful
+        return f'Error: {response.status_code} - {response.text}'
