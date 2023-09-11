@@ -27,6 +27,7 @@ def get_weather_details(location):
         weather_dictionary['Temperature (°C)'] = f'{weather_data["current"]["temp_c"]}'
         weather_dictionary['Condition'] = f'{weather_data["current"]["condition"]["text"]}'
         weather_dictionary['Humidity'] = f'{weather_data["current"]["humidity"]}%'
+        weather_dictionary['Icon'] = f"{weather_data['current']['condition']['icon']}"
 
         return weather_dictionary
 
