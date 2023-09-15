@@ -8,8 +8,7 @@ current_date = datetime.datetime.now()
 # Format the date as "Wednesday, July 22"
 formatted_date = current_date.strftime('%A, %B %d')
 
-weather_data = get_weather_details('Houston')
-print(f"https:{weather_data['Icon']}")
+weather_data = get_weather_details('new delhi')
 
 font_dictionary = {
     'Comfortaa-Bold' : "fonts/Comfortaa-Bold.ttf",
@@ -22,7 +21,11 @@ font_dictionary = {
 page_data = ft.Column([
     ft.Text(value=formatted_date,font_family="Comfortaa-Light",color=ft.colors.WHITE,style='titleLarge'),
     ft.Text(value=weather_data['Location'],font_family="Comfortaa-Bold",style='titleLarge',color=ft.colors.WHITE),
-    ft.Image(src=f"https:{weather_data['Icon']}",width=600,height=600),
+    ft.Container(height=80),
+    ft.Image(src=f"weather_icons/{weather_data['IconLocation']}",width=150),
+    ft.Container(height=10),
+    ft.Text(value=f"{weather_data['Climate']}",font_family="Comfortaa-Light",style='titleLarge',color=ft.colors.WHITE),
+    ft.Text(value=f"{int(round(float(weather_data['Temperature (°C)'])))}°",font_family='Comfortaa-Medium',style='displayLarge',color=ft.colors.WHITE)
 ],horizontal_alignment='center')
 
 body = ft.Container(

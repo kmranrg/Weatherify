@@ -28,6 +28,16 @@ def get_weather_details(location):
         weather_dictionary['Condition'] = f'{weather_data["current"]["condition"]["text"]}'
         weather_dictionary['Humidity'] = f'{weather_data["current"]["humidity"]}%'
         weather_dictionary['Icon'] = f"{weather_data['current']['condition']['icon']}"
+        
+        # getting the icon path
+        icon_location = weather_dictionary['Icon'].split('/')
+        icon_location[-1] = icon_location[-1].replace('png','svg')
+        icon_location = icon_location[-2] + '/' +icon_location[-1]
+
+        # saving the icon path in weather dictionary
+        weather_dictionary['IconLocation'] = icon_location
+
+        weather_dictionary['Climate'] = f"{weather_data['current']['condition']['text']}"
 
         return weather_dictionary
 
