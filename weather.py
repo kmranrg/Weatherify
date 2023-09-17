@@ -26,9 +26,14 @@ def get_weather_details(location):
         weather_dictionary['Location'] = f'{weather_data["location"]["name"]}, {weather_data["location"]["country"]}'
         weather_dictionary['Temperature (°C)'] = f'{weather_data["current"]["temp_c"]}'
         weather_dictionary['Condition'] = f'{weather_data["current"]["condition"]["text"]}'
-        weather_dictionary['Humidity'] = f'{weather_data["current"]["humidity"]}%'
         weather_dictionary['Icon'] = f"{weather_data['current']['condition']['icon']}"
-        
+        weather_dictionary['Humidity'] = f'{weather_data["current"]["humidity"]} %'
+        weather_dictionary['WindSpeed'] = f'{weather_data["current"]["wind_kph"]} km/hr'
+        weather_dictionary['Pressure'] = f'{weather_data["current"]["pressure_mb"]} millibars'
+        weather_dictionary['Precipitation'] = f'{weather_data["current"]["precip_in"]} inches'
+        weather_dictionary['Gust'] = f'{weather_data["current"]["gust_kph"]} km/hr'
+        weather_dictionary['UVIndex'] = f'{weather_data["current"]["uv"]}'
+
         # getting the icon path
         icon_location = weather_dictionary['Icon'].split('/')
         icon_location[-1] = icon_location[-1].replace('png','svg')
