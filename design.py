@@ -1,3 +1,4 @@
+# importing libraries
 import flet as ft
 import datetime
 from weather import get_weather_details, get_forecast_details
@@ -8,10 +9,14 @@ current_date = datetime.datetime.now()
 # Format the date as "Wednesday, July 22"
 formatted_date = current_date.strftime('%A, %B %d')
 
+# setting the city
 weather_data = get_weather_details('mumbai')
 forecast_data = get_forecast_details('mumbai')
 
+# main flet application
 def main(page: ft.Page):
+
+    # setting up the page
     page.title = 'Weatherify'
     page.padding = 0
     page.vertical_alignment = 'center'
@@ -28,6 +33,7 @@ def main(page: ft.Page):
         'Comfortaa-SemiBold': "fonts/Comfortaa-SemiBold.ttf"
     }
 
+    # generating multiple items for containing hourly weather data
     def hourly_items_report():
         items = []
         for k,v in forecast_data.items():
@@ -60,7 +66,8 @@ def main(page: ft.Page):
             )
         return items
 
-    page_data = ft.Column([
+    # homepage contents
+    homepage_data = ft.Column([
         ft.Container(height=5),
         ft.Text(value=formatted_date,font_family="Comfortaa-Light",color=ft.colors.WHITE,style='titleLarge'),
         ft.Text(value=weather_data['Location'],font_family="Comfortaa-Bold",style='titleLarge',color=ft.colors.WHITE),
@@ -89,6 +96,21 @@ def main(page: ft.Page):
         
     ],horizontal_alignment='center')
 
+    # homepage container
+    homepage_body = ft.Container(
+        content=homepage_data,
+        gradient=ft.LinearGradient(
+            begin=ft.alignment.top_center,
+            end=ft.alignment.bottom_center,
+            colors=['#001a31','#019877']
+        ),
+        width=500,
+        height=800,
+        border_radius=5,
+        padding=20
+    )
+
+    # splash screen contents
     splash_screen_data = ft.Column([
         ft.Text(value='Weatherify',font_family='Comfortaa-Bold',style='displaySmall',text_align='center'),
         ft.Container(height=20),
@@ -109,6 +131,7 @@ def main(page: ft.Page):
         ),
     ],horizontal_alignment='center',alignment='center')
 
+    # splash screen container
     splash_screen = ft.Container(
         content=splash_screen_data,
         gradient=ft.LinearGradient(
@@ -122,19 +145,7 @@ def main(page: ft.Page):
         padding=20
     )
 
-    homepage_body = ft.Container(
-        content=page_data,
-        gradient=ft.LinearGradient(
-            begin=ft.alignment.top_center,
-            end=ft.alignment.bottom_center,
-            colors=['#001a31','#019877']
-        ),
-        width=500,
-        height=800,
-        border_radius=5,
-        padding=20
-    )
-
+    # weather details content
     weather_indepth_data = ft.Column([
         ft.Container(height=5),
         ft.Text(value=formatted_date,font_family="Comfortaa-Light",color=ft.colors.WHITE,style='titleLarge'),
@@ -183,6 +194,7 @@ def main(page: ft.Page):
         )
     ],horizontal_alignment='center',alignment='center')
 
+    # weather details container
     weather_indepth_body = ft.Container(
         content=weather_indepth_data,
         gradient=ft.LinearGradient(
@@ -196,6 +208,7 @@ def main(page: ft.Page):
         padding=20
     )
 
+    # defining route change function
     def route_change(route):
         page.views.clear()
         page.views.append(
@@ -238,13 +251,16 @@ def main(page: ft.Page):
             )
     page.update()
 
+    # defining view pop function
     def view_pop(view):
         page.views.pop()
         top_view = page.views[-1]
         page.go(top_view.route)
 
+    # setting up the route change and view pop functions to the page
     page.on_route_change = route_change
     page.on_view_pop = view_pop
     page.go(page.route)
 
+# calling the main function
 ft.app(target=main,assets_dir='assets',view=ft.WEB_BROWSER)
